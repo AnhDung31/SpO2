@@ -42,7 +42,16 @@ Khi nhấc ngón tay khỏi sensor:
 - Còi buzzer được nối 1 chân với chân 3.3V của ESP8266, chân còn lại nối với chân D5 của ESP8266
 
 ## E.  Thiết kế phần mềm - Software Concept
-   
+### 1. Đo SpO2 và BPM
+   - Cảm biến MAX30102 đo các giá trị ánh sáng đỏ và hồng ngoại phản xạ từ ngón tay bằng cách phát ra ánh sáng từ 2 đèn LED là LED đỏ và LED hồng ngoại và thu lại ánh sáng phản xạ.
+   - Thông qua 2 chân là SCL(Serial Clock Line) và SDA(Serial Data Line) (Đường xung nhịp I2C và đường dữ liệu I2C) để truyền dữ liệu đo lường được đến kít Esp8266.
+   - Thông qua công thức tính toán được nồng độ oxy trong máu (SpO2) và nhịp tim (BPM).
+  ### 2. Hiển thị kết quả lên màn hình OLED
+  - Màn hình OLED hiển thị các giá trị đo được từ cảm biến MAX30102 như SpO2, BPM và các giá trị trung bình.
+  - Các giá trị này được cập nhật liên tục trong vòng lặp chính của chương trình.
+ ### 3. Cảnh báo bằng buzzer
+  - Khi phát hiện các chỉ số bất thường của BPM và SpO2, ngay lập tức chân GPIO14(D5) được đặt về giá trị LOW (0) để bật còi.
+
 ## F. Tác giả
    Nguyễn Quang Chiến - 20215533 - [@ztrevah](https://github.com/ztrevah/SpO2)
    
