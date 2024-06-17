@@ -42,8 +42,15 @@ Khi nhấc ngón tay khỏi sensor:
 - Còi buzzer được nối 1 chân với chân 3.3V của ESP8266, chân còn lại nối với chân D5 của ESP8266
 
 ## E.  Thiết kế phần mềm - Software Concept
-   
+- Đo nồng độ oxy trong máu: 
+    + Hai đèn LED của cảm biến MAX30102(Đỏ và IR) phát ra ánh sáng ở hai khoảng bước sóng khác nhau ( ~660nm cho LED đỏ, ~880nm cho LED hồng ngoại).
+    + Hemoglobin oxy hóa hấp thụ nhiều ánh sáng hồng ngoại và phản xạ lại ánh sáng đỏ, trong khi hemoglobin khử oxy thì ngược lại.
+    + Cảm biến MAX30102 từ đó có thể đọc được các mức hấp thụ hai ánh sáng này khác nhau thông qua ánh sáng được phản xạ để tìm nồng độ oxy trong máu.
+- Đo nhịp tim:
+    + Mỗi nhịp tim bơm máu qua các mạch máu, làm thay đổi thể tích máu trong mô.
+    + Cảm biến MAX30102 phát hiện các dao động này bằng cách đo sự thay đổi trong cường độ ánh sáng hồng ngoại phản xạ từ mô.
+    + Thời gian giữa các đỉnh của tín hiệu ánh sáng phản xạ tương ứng với nhịp tim.
 ## F. Tác giả
    Nguyễn Quang Chiến - 20215533 - [@ztrevah](https://github.com/ztrevah/SpO2)
    
-   Võ Anh Dũng - 20215548
+   Võ Anh Dũng - 20215548 - 
