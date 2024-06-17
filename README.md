@@ -3,13 +3,28 @@
   - Sử dụng cảm biến MAX30102 để lấy được dữ liệu về nhịp tim và chỉ số SpO2.
   - Dữ liệu sẽ được hiển thị ra màn hình OLED cho người dùng.
   - Thiết bị sẽ thông báo bằng buzzer nếu chỉ số nhịp tim và SpO2 khác thường.
+
 ## B.  Hướng dẫn sử dụng
-### Hình ảnh minh hoạ sản phẩm
-![sketch_img](https://github.com/ztrevah/SpO2/assets/93901738/473c8b42-57cc-43ff-8469-9798860ff3f1)
-### Hướng dẫn sử dụng
+### 1. Hình ảnh minh hoạ sản phẩm
+Khi bật thiết bị:
+
+![20240617_221204](https://github.com/ztrevah/SpO2/assets/93901738/d4fc3bec-ab6d-437a-b707-f327816767ec)
+
+Đặt ngón tay lên cảm biến và quan sát chỉ số nhịp tim và nồng độ oxi trên màn hình OLED:
+
+![20240617_221210](https://github.com/ztrevah/SpO2/assets/93901738/d6362bab-261a-44dd-aa6d-983cf6b58289)
+
+Khi nhấc ngón tay khỏi sensor:
+
+![20240617_221212](https://github.com/ztrevah/SpO2/assets/93901738/fb83a006-aeb7-49b5-8f69-8f9ff298a503)
+
+### 2. Hướng dẫn sử dụng
 - Cấp nguồn 3.3V cho ESP8266 (có thể cấp nguồn bằng cách cắm vào máy tính).
 - Đặt ngón tay lên cảm biến và duy trì áp lực để chỉ số hiển thị ra ổn định.
 - Quan sát chỉ số BPM và SpO2 được hiển thị trên màn hình OLED.
+
+#### Để có cái nhìn rõ hơn về sản phẩm này, hãy xem video demo tại [đây](https://drive.google.com/file/d/1ZJ9Q8RwgMdIQ0EB2SPxngzKBdT-qQ4i_/view?usp=drive_link)
+
 ## C. Danh sách linh kiện (Bill of Material)
 | Linh kiện | Số lượng | Link mua hàng | 
 | --- | --- | ---|
@@ -25,6 +40,7 @@
 - Nối chân GND và VCC/VIN của cảm biến MAX30102 và màn hình OLED với chân GND và 3.3V của ESP8266 để cấp điện áp cho chúng hoạt động
 - Các chân SCL và SDA của cảm biến MAX30102 và màn hình OLED được nối với lần lượt với chân D1 và D2 của ESP8266 - 2 chân được cấu hình mặc định cho giao tiếp I2C của ESP8266
 - Còi buzzer được nối 1 chân với chân 3.3V của ESP8266, chân còn lại nối với chân D5 của ESP8266
+
 ## E.  Thiết kế phần mềm - Software Concept
    
 ## F. Tác giả
