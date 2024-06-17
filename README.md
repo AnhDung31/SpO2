@@ -17,7 +17,7 @@
 | Cảm biến nhịp tim MAX30102 | 1 | [Shopee](https://shopee.vn/Module-c%E1%BA%A3m-bi%E1%BA%BFn-nh%E1%BB%8Bp-tim-v%C3%A0-n%E1%BB%93ng-%C4%91%E1%BB%99-oxy-trong-m%C3%A1u-MAX30102-1.8-3.3V-5V-i.70782946.7316453605?sp_atk=435a61c9-8578-41a7-a56f-f4a583c9aab2&xptdk=435a61c9-8578-41a7-a56f-f4a583c9aab2) |
 | Màn hình OLED 0.96inch | 1 | [Shopee](https://shopee.vn/M%C3%A0n-h%C3%ACnh-hi%E1%BB%83n-th%E1%BB%8B-128x64-Oled-0.96-Inch-giao-Ti%E1%BA%BFp-I2C-chuy%C3%AAn-d%E1%BB%A5ng-SSD1315-SSD1306-i.16504852.12103032615?sp_atk=41724e15-7898-42fd-bf72-608a1e33ee42&xptdk=41724e15-7898-42fd-bf72-608a1e33ee42) |
 | Buzzer | 1 | [Linh kiện 3M](https://chotroihn.vn/coi-chip-9-5x12mm) |
-| Breadboard | 1 | [Linh kiện 3M]([https://chotroihn.vn/coi-chip-9-5x12mm](https://chotroihn.vn/board-test-mb-102-16-5x5-5)) |
+| Breadboard | 1 | [Linh kiện 3M](https://chotroihn.vn/board-test-mb-102-16-5x5-5) |
 | Dây nối |  |  |
 
 ## D. Sơ đồ nguyên lý - Hardware Schematic
