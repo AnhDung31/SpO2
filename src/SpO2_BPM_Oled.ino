@@ -5,15 +5,15 @@
 
 MAX30105 particleSensor;
 
-const byte RATE_SIZE = 4; // Increase this for more averaging. 4 is good.
-byte rates[RATE_SIZE]; // Array of heart rates
+const byte RATE_SIZE = 4; // Số chỉ số nhịp tim để tính trung bình
+byte rates[RATE_SIZE]; // Mảng lưu chỉ số nhịp tim
 byte rateSpot = 0;
-long lastBeat = 0; // Time at which the last beat occurred
+long lastBeat = 0; // Thời điểm gần nhất phát hiện nhịp tim
 
 float beatsPerMinute;
-int beatAvg;
+int beatAvg; // Chỉ số nhịp tim trung bình
 
-// Mảng để lưu trữ giá trị cảm biến
+// Mảng để lưu trữ giá trị LED của cảm biến
 const int BUFFER_SIZE = 100;
 long redBuffer[BUFFER_SIZE];
 long irBuffer[BUFFER_SIZE];
@@ -23,18 +23,18 @@ int bufferIndex = 0;
 U8X8_SSD1306_128X64_NONAME_HW_I2C u8x8(/* reset=*/ U8X8_PIN_NONE);
 
 void setup() {
-  // Initialize OLED
+  // Setup OLED
   u8x8.begin();
   u8x8.setFont(u8x8_font_chroma48medium8_r);
 
-  // Initialize sensor
+  // Setup sensor
   if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) { // Use default I2C port, 400kHz speed
     Serial.println("MAX30105 was not found. Please check wiring/power.");
     u8x8.drawString(0, 0, "MAX30105 not found");
     while (1);
   }
-  Serial.println("Place your index finger");
   u8x8.drawString(0, 0, "Place finger on sensor");
+  delay(1000);
 
   particleSensor.setup(); // Configure sensor with default settings
   particleSensor.setPulseAmplitudeRed(0x0A); // Turn Red LED to low to indicate sensor is running
@@ -54,6 +54,7 @@ void loop() {
     irBuffer[bufferIndex] = irValue;
     bufferIndex = (bufferIndex + 1) % BUFFER_SIZE;
 
+    // Nếu phát hiện nhịp tim thì lưu lại thời điểm này và tính chỉ số nhịp tim
     if (checkForBeat(irValue) == true) {
       // We sensed a beat!
       long delta = millis() - lastBeat;
@@ -61,8 +62,9 @@ void loop() {
 
       beatsPerMinute = 60 / (delta / 1000.0);
 
+      // Nếu chỉ số nhịp tim hợp lệ thì lưu lại vào mảng và tính giá trị trung bình
       if (beatsPerMinute < 255 && beatsPerMinute > 20) {
-        rates[rateSpot++] = (byte)beatsPerMinute; // Store this reading in the array
+        rates[rateSpot++] = (byte)beatsPerMinute;
         rateSpot %= RATE_SIZE; // Wrap variable
 
         // Take average of readings
@@ -72,7 +74,8 @@ void loop() {
         beatAvg /= RATE_SIZE;
       }
     }
-
+    
+    // Tính toán SpO2
     float red_dc = calculateDC(redBuffer);
     float ir_dc = calculateDC(irBuffer);
     float red_ac = calculateAC(redBuffer);
@@ -80,6 +83,7 @@ void loop() {
 
     float R = (red_ac / red_dc) / (ir_ac / ir_dc);
     float SpO2 = 123.7 - 25 * R;
+    
     // Hiển thị lên OLED
     u8x8.clearDisplay();
     u8x8.drawString(0, 0, "BPM: ");
