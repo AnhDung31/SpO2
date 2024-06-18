@@ -51,8 +51,10 @@ Khi nhấc ngón tay khỏi sensor:
   - Các giá trị này được cập nhật liên tục trong vòng lặp chính của chương trình.
  ### 3. Cảnh báo bằng buzzer
   - Khi phát hiện các chỉ số bất thường của BPM và SpO2, ngay lập tức chân GPIO14(D5) được đặt về giá trị LOW (0) để bật còi.
-
-## F. Tác giả
+## F. Các vấn đề còn đang gặp phải
+- Để thu nhận được đầy đủ dữ liệu được gửi về từ MAX30102, cần mất một khoảng thời gian. Tuy nhiên, khi chưa nhận được hết thì kit esp8288 đã phải xử lý các phần khác của chương trình như hiển thị thông số lên màn hinh OLED, từ đó làm cho các thông số SpO2 và BPM không chính xác.
+- Để xử lý vấn đề trên, nhóm đã dùng hàm delay() ở cuối chương trình. Việc này tuy làm cho các thông số đọc được từ cảm biến MAX30102 không được cập nhật liên tục, dẫn đến kết quả của SpO2 và BPM không chính xác 100 %, nhưng đã tránh được việc cảm biến MAX30102 không đủ thời gian để nhận và đọc thông số từ ngón tay.
+## G. Tác giả
    Nguyễn Quang Chiến - 20215533 - [@ztrevah](https://github.com/ztrevah/SpO2)
    
    Võ Anh Dũng - 20215548
