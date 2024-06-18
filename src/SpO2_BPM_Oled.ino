@@ -2,6 +2,7 @@
 #include "MAX30105.h" // Sparkfun MAX3010X library
 #include <U8x8lib.h>
 #include "heartRate.h"
+#define BUZZERPIN 14
 
 MAX30105 particleSensor;
 
@@ -27,27 +28,36 @@ void setup() {
   u8x8.begin();
   u8x8.setFont(u8x8_font_chroma48medium8_r);
 
+  // Setup buzzer
+  pinMode(BUZZERPIN, OUTPUT);
+  digitalWrite(BUZZERPIN,HIGH);
+
   // Setup sensor
   if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) { // Use default I2C port, 400kHz speed
     Serial.println("MAX30105 was not found. Please check wiring/power.");
     u8x8.drawString(0, 0, "MAX30105 not found");
     while (1);
   }
-  u8x8.drawString(0, 0, "Place finger on sensor");
-  delay(1000);
+  u8x8.drawString(0, 0, "Place finger on");
+  u8x8.drawString(0, 2, "sensor");
 
   particleSensor.setup(); // Configure sensor with default settings
   particleSensor.setPulseAmplitudeRed(0x0A); // Turn Red LED to low to indicate sensor is running
   particleSensor.setPulseAmplitudeGreen(0); // Turn off Green LED
 }
-
+bool laststate = false; // Trạng thái đặt tay lên sensor gần nhất, = true nếu có đặt ngón tay lên sensor, = false nếu ngược lại
 void loop() {
   long irValue = particleSensor.getIR();
   long redValue = particleSensor.getRed();
 
   if (irValue < 50000) {
-    u8x8.clearDisplay();
-    u8x8.drawString(0, 2, "No finger");
+    if(laststate == true) {
+      beatAvg = 20;
+      u8x8.clearDisplay();
+      u8x8.drawString(0, 2, "No finger");
+      digitalWrite(BUZZERPIN,HIGH);
+    }
+    laststate = false;
   } else {
     // Lưu giá trị vào buffer
     redBuffer[bufferIndex] = redValue;
@@ -83,20 +93,23 @@ void loop() {
 
     float R = (red_ac / red_dc) / (ir_ac / ir_dc);
     float SpO2 = 123.7 - 25 * R;
+
+    if(laststate == false) {
+      u8x8.clearDisplay();
+      u8x8.drawString(0, 2, "Avg BPM: ");
+      u8x8.drawString(0, 4, "SpO2: ");
+    }
+      
+      u8x8.setCursor(9, 2);
+      u8x8.print(beatAvg);
+      u8x8.setCursor(6, 4);
+      if(SpO2 >= 100.00) SpO2 = 99.00;
+      u8x8.print(SpO2);
+      u8x8.print(" %");
+      if(beatAvg >= 40 && beatAvg <= 100 && SpO2 >= 95) digitalWrite(BUZZERPIN,HIGH);
+      else digitalWrite(BUZZERPIN,LOW);
     
-    // Hiển thị lên OLED
-    u8x8.clearDisplay();
-    u8x8.drawString(0, 0, "BPM: ");
-    u8x8.setCursor(5, 0);
-    u8x8.print(beatsPerMinute);
-    u8x8.drawString(0, 2, "Avg BPM: ");
-    u8x8.setCursor(9, 2);
-    u8x8.print(beatAvg);
-    u8x8.drawString(0, 4, "SpO2: ");
-    u8x8.setCursor(6, 4);
-    if (SpO2 < 100.00) u8x8.print(SpO2);
-    else u8x8.print("99.00");
-    u8x8.print(" %");
+    laststate = true;
   }
 
   delay(845);
